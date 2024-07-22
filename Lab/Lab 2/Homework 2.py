@@ -188,9 +188,10 @@ def tanha(x0):
     
     while (np.abs(tanhActual-tanhBefore)>=tol):
         if(it>0):
-            tanhBefore=tanhActual
+            tahnBefore=tanhActual
         tanhActual=P(x0,it,1)/P(x0,it,0)
         it+=1
+        print(tanhBefore,tanhActual)
         
     return tanhActual
 
@@ -199,60 +200,3 @@ f = lambda x: np.tanh(x)
 print("Function value      =",f(0.5))
 aprox= tanha(0.5)
 print("Approximation value =",aprox)
-
-#%%Exercise 6
-import numpy as np
-import matplotlib.pyplot as plt
-
-def P(x0,degree,i):
-    polynomial = 0.
-    factorial = 1.
-    
-    term=0
-    #termBefore=np.inf
-    maxNumSum=100
-    it=0
-
-    while i<=maxNumSum and it<degree+1:
-        term = x0**i/factorial
-        polynomial += term
-        factorial *= i+1
-        factorial *= i+2
-        i+=2
-        it+=1  
-        
-    return polynomial
-
-def tanha(x0,tol):
-    tanhBefore=np.inf
-    tanhActual=0
-    it=0
-    
-    while (np.abs(tanhActual-tanhBefore)>=tol):
-        if(it>0):
-            tanhBefore=tanhActual
-        tanhActual=P(x0,it,1)/P(x0,it,0)
-        it+=1
-        
-    return tanhActual
-
-def funTanh(x, tol):
-    y=np.zeros_like(x)
-    for i in range(len(x)):
-       y[i]=tanha(x[i], tol)
-    
-    return y
-    
-x = np.linspace(-3,3)
-tol=(10)**(-8)
-OX = 0*x
-
-plt.figure()
-f = lambda x: np.tanh(x)
-plt.plot(x,f(x), 'y',linewidth=5, label = 'f')
-plt.plot(x,OX,'k') 
-plt.plot(x,funTanh(x,tol), 'b--', label = 'f approximation')
-
-plt.title('f approximation with McLaurin seies') 
-plt.legend()                           
-plt.show()
